@@ -11,6 +11,9 @@ import static calculadora.uninter.R.id.visor_principal;
 
 public class MainActivity extends AppCompatActivity {
 
+    private String valor1 = "0";
+    private String valor2 = "0";
+    private String resultado = "0";
     private TextView visorPrincipal;
 
     @Override
@@ -76,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
                 aplicaValores("0");
                 break;
             case R.id.btn_mais:
-                Toast.makeText(this, "Clicou na soma", Toast.LENGTH_SHORT).show();
+                /* 1 - para soma */
+                realizaCalculo(1);
                 break;
             case R.id.btn_menos:
                 Toast.makeText(this, "Clicou na subtração", Toast.LENGTH_SHORT).show();
@@ -91,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Clicou no igual", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_virgula:
-                Toast.makeText(this, "Clicou na virgula", Toast.LENGTH_SHORT).show();
+                aplicaValores(",");
                 break;
             case R.id.btn_backspace:
                 zeraVisor();
@@ -100,15 +104,39 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void aplicaValores(String valor) {
-        String resultado;
-        String strValorVisor = this.visorPrincipal.getText().toString();
-        if (strValorVisor.equals("0")) {
-            resultado = valor;
-        } else {
-            resultado = strValorVisor + valor;
+    public void realizaCalculo(int operacao) {
+        switch (operacao) {
+            case 1:
+                if (this.valor1.equals("0")) {
+                    this.valor1 = this.visorPrincipal.getText().toString();
+                    resultado = this.valor1 + "+";
+                } else {
+
+                }
+                break;
         }
         this.visorPrincipal.setText(resultado);
+    }
+
+    public void aplicaValores(String valor) {
+        String strValorVisor = this.visorPrincipal.getText().toString();
+        if (valor.equals(",")) {
+            char lastChar = strValorVisor.charAt(strValorVisor.length() - 1);
+            if (strValorVisor.indexOf(",") < 0) {
+                if (strValorVisor.equals("0")) {
+                    this.resultado = valor;
+                } else {
+                    this.resultado = strValorVisor + valor;
+                }
+            }
+        } else {
+            if (strValorVisor.equals("0")) {
+                this.resultado = valor;
+            } else {
+                this.resultado = strValorVisor + valor;
+            }
+        }
+        this.visorPrincipal.setText(this.resultado);
 
     }
 
