@@ -11,9 +11,18 @@ import static calculadora.uninter.R.id.visor_principal;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String valor1 = "0";
-    private String valor2 = "0";
-    private String resultado = "0";
+    final Integer MULTIPLICACAO = 1;
+    final Integer DIVISAO = 2;
+    final Integer SOMA = 3;
+    final Integer SUBTRACAO = 4;
+    final Integer TOTAL = 5;
+
+    private Double valor1 = 0d;
+    private Double valor2 = 0d;
+    private Double resultado = 0d;
+    private Integer operacao = 0;
+    private Integer calcular = 0;
+    private String operador = "";
     private TextView visorPrincipal;
 
     @Override
@@ -49,53 +58,65 @@ public class MainActivity extends AppCompatActivity {
     public void btnAction(View v) {
         switch (v.getId()) {
             case R.id.btn_1:
-                aplicaValores("1");
+                aplicaValores(1d);
                 break;
             case R.id.btn_2:
-                aplicaValores("2");
+                aplicaValores(2d);
                 break;
             case R.id.btn_3:
-                aplicaValores("3");
+                aplicaValores(3d);
                 break;
             case R.id.btn_4:
-                aplicaValores("4");
+                aplicaValores(4d);
                 break;
             case R.id.btn_5:
-                aplicaValores("5");
+                aplicaValores(5d);
                 break;
             case R.id.btn_6:
-                aplicaValores("6");
+                aplicaValores(6d);
                 break;
             case R.id.btn_7:
-                aplicaValores("7");
+                aplicaValores(7d);
                 break;
             case R.id.btn_8:
-                aplicaValores("8");
+                aplicaValores(8d);
                 break;
             case R.id.btn_9:
-                aplicaValores("9");
+                aplicaValores(9d);
                 break;
             case R.id.btn_0:
-                aplicaValores("0");
+                aplicaValores(0d);
                 break;
             case R.id.btn_mais:
-                /* 1 - para soma */
-                realizaCalculo(1);
+                if (this.operacao != 0) {
+                    this.calcular = SOMA;
+                } else {
+                    this.operacao = SOMA;
+                }
+                this.operador = "+";
+                this.visorPrincipal.setText(String.valueOf(this.valor1) + this.operador);
                 break;
             case R.id.btn_menos:
-                Toast.makeText(this, "Clicou na subtração", Toast.LENGTH_SHORT).show();
+                this.operacao = SUBTRACAO;
+                this.operador = "-";
+                this.visorPrincipal.setText(String.valueOf(this.valor1) + this.operador);
                 break;
             case R.id.btn_multiplicacao:
-                Toast.makeText(this, "Clicou na multiplicacao", Toast.LENGTH_SHORT).show();
+                this.operacao = MULTIPLICACAO;
+                this.operador = "×";
+                this.visorPrincipal.setText(String.valueOf(this.valor1) + this.operador);
                 break;
             case R.id.btn_divisao:
-                Toast.makeText(this, "Clicou na divisão", Toast.LENGTH_SHORT).show();
+                this.operacao = DIVISAO;
+                this.operador = "÷";
+                this.visorPrincipal.setText(String.valueOf(this.valor1) + this.operador);
                 break;
             case R.id.btn_igual:
+                this.operacao = TOTAL;
                 Toast.makeText(this, "Clicou no igual", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_virgula:
-                aplicaValores(",");
+                Toast.makeText(this, "Clicou na virgula", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_backspace:
                 zeraVisor();
@@ -105,42 +126,55 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void realizaCalculo(int operacao) {
-        switch (operacao) {
-            case 1:
-                if (this.valor1.equals("0")) {
-                    this.valor1 = this.visorPrincipal.getText().toString();
-                    resultado = this.valor1 + "+";
-                } else {
 
-                }
-                break;
-        }
-        this.visorPrincipal.setText(resultado);
     }
 
-    public void aplicaValores(String valor) {
-        String strValorVisor = this.visorPrincipal.getText().toString();
-        if (valor.equals(",")) {
-            char lastChar = strValorVisor.charAt(strValorVisor.length() - 1);
-            if (strValorVisor.indexOf(",") < 0) {
-                if (strValorVisor.equals("0")) {
-                    this.resultado = valor;
-                } else {
-                    this.resultado = strValorVisor + valor;
-                }
-            }
-        } else {
-            if (strValorVisor.equals("0")) {
-                this.resultado = valor;
+    public void aplicaValores(Double valor) {
+        if (this.operacao == 0) {
+            if (this.valor1 == 0d) {
+                this.valor1 = valor;
             } else {
-                this.resultado = strValorVisor + valor;
+                this.valor1 = (this.valor1 * 10) + valor;
+            }
+            this.visorPrincipal.setText(String.valueOf(this.valor1));
+        } else {
+            if (this.calcular != 0) {
+                if (this.operacao == SOMA) {
+                    this.valor1 = this.valor1 + this.valor2;
+                    this.operacao = this.calcular;
+                    this.calcular = 0;
+                    this.valor2 = 0d;
+                    Toast.makeText(this, "AQUI", Toast.LENGTH_SHORT).show();
+                }
+                if (this.operacao == SUBTRACAO) {
+                    this.valor1 = this.valor1 - this.valor2;
+                }
+                if (this.operacao == MULTIPLICACAO) {
+                    this.valor1 = this.valor1 * this.valor2;
+                }
+                if (this.operacao == DIVISAO) {
+                    this.valor1 = this.valor1 / this.valor2;
+                }
+                this.visorPrincipal.setText(String.valueOf(this.valor1) + this.operador);
+            } else {
+                if (this.valor2 == 0d) {
+                    this.valor2 = valor;
+                } else {
+                    this.valor2 = (this.valor2 * 10) + valor;
+                }
+                this.visorPrincipal.setText(String.valueOf(this.valor1) + this.operador + String.valueOf(this.valor2));
             }
         }
-        this.visorPrincipal.setText(this.resultado);
+
 
     }
 
     public void zeraVisor() {
+        this.valor1 = 0d;
+        this.valor2 = 0d;
+        this.resultado = 0d;
+        this.operacao = 0;
+        this.calcular = 0;
         this.visorPrincipal.setText("0");
     }
 }
