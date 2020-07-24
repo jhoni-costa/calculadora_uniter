@@ -1,3 +1,18 @@
+/* Desenvolvedor: Jhoni Regis Souza da Costa
+*  RU: 2804755
+*  Atividade Prática da disciplina: Tópicos Avançados de Programação (Dispositivos Móveis)
+*  Prof. Leonardo Gomes, Dr.
+*  Curso de Análise e Desenvolvimento de Sistemas
+*  Instituição: Uninter
+*  Projeto disponivel em: https://github.com/jhoni-costa/calculadora_uniter
+*  Exercício: Desenvolva uma Calculadora simples no Android Studio utilizando Java. Sua
+    calculadora deve contar com botões numéricos e ao menos 4 operações. O
+    funcionamento deve ser o mesmo que o de uma calculadora de bolso comum
+    em que as operações são aplicadas sobre o número exibido no display.
+    IMPORTANTE NÃO UTILIZE CAMPOS DE TEXTO PARA DIGITAR E SIM UM
+    BOTÃO PARA CADA DÍGITO.
+* */
+
 package calculadora.uninter;
 
 import android.support.v7.app.AppCompatActivity;
@@ -11,12 +26,14 @@ import static calculadora.uninter.R.id.visor_principal;
 
 public class MainActivity extends AppCompatActivity {
 
+    /* Contantes, cada um representa uma operação */
     final Integer MULTIPLICACAO = 1;
     final Integer DIVISAO = 2;
     final Integer SOMA = 3;
     final Integer SUBTRACAO = 4;
     final Integer TOTAL = 5;
 
+    /* Variáveis */
     private Double valor1 = 0d;
     private Double valor2 = 0d;
     private Double resultado = 0d;
@@ -55,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         Button btn_virgula = findViewById(R.id.btn_virgula);
     }
 
+    /* Metodo usado no onClick de cada botão */
     public void btnAction(View v) {
         switch (v.getId()) {
             case R.id.btn_1:
@@ -142,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
+    /* Método que realiza o calculo */
     public void realizaCalculo() {
         if (this.calcular == SOMA) {
             this.valor1 = this.valor1 + this.valor2;
@@ -158,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
             this.visorPrincipal.setText(String.valueOf(this.valor1));
         }
     }
-
+    /* Método que seta os valores */
     public void aplicaValores(Double valor) {
         if (this.operacao == 0) {
             this.valor1 = (this.valor1 * 10) + valor;
@@ -169,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /* Metodo para zerar os parametos */
     public void zeraVisor() {
         this.valor1 = 0d;
         this.valor2 = 0d;

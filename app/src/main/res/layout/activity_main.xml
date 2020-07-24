@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <!-- Visor: onde sera exibido os valores -->
         <TextView
             android:id="@+id/visor_principal"
             android:layout_width="match_parent"
@@ -21,14 +22,15 @@
             android:layout_marginRight="20px"
             android:layout_marginBottom="150px"
             android:background="@android:color/white"
-            android:ems="10"
             android:elevation="20px"
+            android:ems="10"
             android:gravity="bottom|end"
             android:inputType="textPersonName"
             android:text="0"
             android:textColor="@android:color/black"
             android:textSize="20pt" />
 
+        <!-- Usei um TableLayout dentro do LinearLayou, fica mais facil de organizar, muito semelhante ao html-->
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -301,7 +303,6 @@
                     android:text="="
                     android:textColor="@android:color/white"
                     android:textSize="8pt" />
-
 
             </TableRow>
         </TableLayout>
