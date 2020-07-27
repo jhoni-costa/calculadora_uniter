@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private Integer operacao = 0;
     private Integer calcular = 0;
     private String operador = "";
+    private Integer decimal = 0;
     private TextView visorPrincipal;
 
     @Override
@@ -108,51 +109,60 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btn_mais:
                 if (this.operacao == 0) {
                     this.operacao = SOMA;
+                    this.operador = "+";
+                    this.decimal = 0;
+                    this.visorPrincipal.setText(String.valueOf(this.valor1) + this.operador);
                 } else {
-                    this.calcular = SOMA;
+                    this.calcular = this.operacao;
+                    this.operacao = TOTAL;
                 }
-                this.operador = "+";
-                this.visorPrincipal.setText(String.valueOf(this.valor1) + this.operador);
                 realizaCalculo();
                 break;
             case R.id.btn_menos:
                 if (this.operacao == 0) {
                     this.operacao = SUBTRACAO;
+                    this.operador = "-";
+                    this.decimal = 0;
+                    this.visorPrincipal.setText(String.valueOf(this.valor1) + this.operador);
                 } else {
-                    this.calcular = SUBTRACAO;
+                    this.calcular = this.operacao;
+                    this.operacao = TOTAL;
                 }
-                this.operador = "-";
-                this.visorPrincipal.setText(String.valueOf(this.valor1) + this.operador);
                 realizaCalculo();
                 break;
             case R.id.btn_multiplicacao:
                 if (this.operacao == 0) {
                     this.operacao = MULTIPLICACAO;
+                    this.operador = "×";
+                    this.decimal = 0;
+                    this.visorPrincipal.setText(String.valueOf(this.valor1) + this.operador);
                 } else {
-                    this.calcular = MULTIPLICACAO;
+                    this.calcular = this.operacao;
+                    this.operacao = TOTAL;
                 }
-                this.operacao = MULTIPLICACAO;
-                this.operador = "×";
-                this.visorPrincipal.setText(String.valueOf(this.valor1) + this.operador);
                 realizaCalculo();
                 break;
             case R.id.btn_divisao:
                 if (this.operacao == 0) {
                     this.operacao = DIVISAO;
+                    this.operador = "÷";
+                    this.decimal = 0;
+                    this.visorPrincipal.setText(String.valueOf(this.valor1) + this.operador);
                 } else {
-                    this.calcular = DIVISAO;
+                    this.calcular = this.operacao;
+                    this.operacao = TOTAL;
                 }
-                this.operacao = DIVISAO;
-                this.operador = "÷";
-                this.visorPrincipal.setText(String.valueOf(this.valor1) + this.operador);
                 realizaCalculo();
                 break;
             case R.id.btn_igual:
+                this.calcular = this.operacao;
                 this.operacao = TOTAL;
-                Toast.makeText(this, "Clicou no igual", Toast.LENGTH_SHORT).show();
+                realizaCalculo();
                 break;
             case R.id.btn_virgula:
-                Toast.makeText(this, "Clicou na virgula", Toast.LENGTH_SHORT).show();
+                if (this.decimal == 0) {
+                    this.decimal = 10;
+                }
                 break;
             case R.id.btn_backspace:
                 zeraVisor();
@@ -160,29 +170,56 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
     /* Método que realiza o calculo */
     public void realizaCalculo() {
-        if (this.calcular == SOMA) {
-            this.valor1 = this.valor1 + this.valor2;
-            this.visorPrincipal.setText(String.valueOf(this.valor1));
-        }else if (this.calcular == SUBTRACAO) {
-            this.valor1 = this.valor1 - this.valor2;
-            this.visorPrincipal.setText(String.valueOf(this.valor1));
-        }else if (this.calcular == MULTIPLICACAO) {
-            this.valor1 = this.valor1 * this.valor2;
-            this.visorPrincipal.setText(String.valueOf(this.valor1));
-        }else if (this.calcular == DIVISAO) {
-            this.valor1 = this.valor1 / this.valor2;
-            this.visorPrincipal.setText(String.valueOf(this.valor1));
+        if (this.operacao == TOTAL) {
+            if (this.calcular == SOMA) {
+                this.valor1 = this.valor1 + this.valor2;
+                this.valor2 = 0d;
+                this.calcular = 0;
+                this.operacao = 0;
+                this.visorPrincipal.setText(String.valueOf(this.valor1));
+            } else if (this.calcular == SUBTRACAO) {
+                this.valor1 = this.valor1 - this.valor2;
+                this.valor2 = 0d;
+                this.calcular = 0;
+                this.operacao = 0;
+                this.visorPrincipal.setText(String.valueOf(this.valor1));
+            } else if (this.calcular == MULTIPLICACAO) {
+                this.valor1 = this.valor1 * this.valor2;
+                this.valor2 = 0d;
+                this.calcular = 0;
+                this.operacao = 0;
+                this.visorPrincipal.setText(String.valueOf(this.valor1));
+            } else if (this.calcular == DIVISAO) {
+                this.valor1 = this.valor1 / this.valor2;
+                this.valor2 = 0d;
+                this.calcular = 0;
+                this.operacao = 0;
+                this.visorPrincipal.setText(String.valueOf(this.valor1));
+            }
         }
+
     }
+
     /* Método que seta os valores */
     public void aplicaValores(Double valor) {
         if (this.operacao == 0) {
-            this.valor1 = (this.valor1 * 10) + valor;
+            if (this.decimal == 0) {
+                this.valor1 = (this.valor1 * 10) + valor;
+            } else {
+                this.valor1 = (valor / this.decimal) + this.valor1;
+                this.decimal = this.decimal * 10;
+            }
             this.visorPrincipal.setText(String.valueOf(this.valor1));
         } else {
-            this.valor2 = (this.valor2 * 10) + valor;
+            if (this.decimal == 0) {
+                this.valor2 = (this.valor2 * 10) + valor;
+            } else {
+                this.valor2 = (valor / 10) + this.valor2;
+                this.decimal = this.decimal * 10;
+            }
             this.visorPrincipal.setText(String.valueOf(this.valor1) + this.operador + String.valueOf(this.valor2));
         }
     }
@@ -194,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
         this.resultado = 0d;
         this.operacao = 0;
         this.calcular = 0;
+        this.decimal = 0;
         this.visorPrincipal.setText("0");
     }
 }
