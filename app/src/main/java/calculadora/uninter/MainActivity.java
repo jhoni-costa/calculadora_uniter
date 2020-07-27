@@ -4,7 +4,11 @@
 *  Prof. Leonardo Gomes, Dr.
 *  Curso de Análise e Desenvolvimento de Sistemas
 *  Instituição: Uninter
+*
+*
 *  Projeto disponivel em: https://github.com/jhoni-costa/calculadora_uniter
+*
+*
 *  Exercício: Desenvolva uma Calculadora simples no Android Studio utilizando Java. Sua
     calculadora deve contar com botões numéricos e ao menos 4 operações. O
     funcionamento deve ser o mesmo que o de uma calculadora de bolso comum

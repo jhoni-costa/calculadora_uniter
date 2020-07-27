@@ -26,6 +26,7 @@
             android:ems="10"
             android:gravity="bottom|end"
             android:inputType="textPersonName"
+            android:maxLength="15"
             android:text="0"
             android:textColor="@android:color/black"
             android:textSize="20pt" />
